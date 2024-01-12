@@ -1,8 +1,9 @@
 import { Enemy } from "./ui/entities.js";
 import { Background } from "./ui/basic-ui.js"
 
-const foo = new Enemy("Tomas", 50, 1)
-console.log (foo);
+const battleBus = new Enemy("BattleBus", 50, 1, 0, 100 ,100)
+const fnKid = new Enemy("fnkid", 50, 1, 2, 100, 500);
+console.log (battleBus);
 
 const background = new Background();
 
@@ -39,8 +40,14 @@ const enemy = {
 }
 
 
-const update = () => {}
-const render = () => {}
+const update = () => {
+    battleBus.update();
+    fnKid.update();
+}
+const render = () => {
+    battleBus.draw(ctx);
+    fnKid.draw(ctx);
+}
 const fps = () => {}
 
 window.onload = () => {
