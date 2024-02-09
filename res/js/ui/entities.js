@@ -2,29 +2,38 @@
 // vlastnosti objektu - atributy
 // Šablona - třída (class)
 // třída (class) má vždy první písmeno velké
+
 export class Enemy {
+//static - dana vec patri tride (v tomto pripade tride Enemy)
+//Vec pouzivame pomoci zapisu Trida.vec
+//Enemy.entitiesData
+static entitiesData;
+
   //constructor - metoda ktera sse vola pri vytvoreni objektu
-  constructor(name, hp, dmg, type, x , y) {
+  constructor(name, hp, dmg, imagePath, width, height, velocity, type) {
     //this - ukazuje na vzniklou instanci - kopii od tridy
     this.name = name;
     this.hp = hp;
     this.dmg = dmg;
+    this.imagePath = imagePath;
     this.img = new Image();
-    this.setType(type);
-    this.img.src = this.path;
+    this.img.src = this.imagePath;
     this.position = {
-      x: x,
-      y: y,
+      x: 0,
+      y: 0,
     };
+    if (type === "ground"){
+      this.position.y = 450
+    }
     this.ratio = 1;
     this.size = {
-      width: 200 * this.ratio,
-      height: 200 * this.ratio,
+      width: width * this.ratio,
+      height: height * this.ratio,
     };
     this.velocity = {
-        x: 2,
-        y: 0,
-    }
+        x: velocity,
+    },
+    this.type = type;
   }
 
   draw(ctx) {

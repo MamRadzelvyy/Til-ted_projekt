@@ -1,82 +1,73 @@
 import { Enemy } from "./ui/entities.js";
-import { Background } from "./ui/basic-ui.js"
+import { Background } from "./ui/basic-ui.js";
 
-const battleBus = new Enemy("BattleBus", 50, 1, 0, 100 ,100)
-const fnKid = new Enemy("fnkid", 50, 1, 2, 100, 500);
-console.log (battleBus);
 
 const background = new Background();
 
-const canvas = document.getElementById("canvas")
+const enemies = [];
+
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const gameLoop = () => {
-//clear
-clear();
-//update
-update();
-//render
-render();
-//fps
-fps();
-//gameLoop znovu
-window.requestAnimationFrame(gameLoop)
-
-}
+  //clear
+  clear();
+  //update
+  update();
+  //render
+  render();
+  //fps
+  fps();
+  //gameLoop znovu
+  window.requestAnimationFrame(gameLoop);
+};
 
 const clear = () => {
-    canvas.width = 1280;
-    canvas.height = 720;
-    background.draw(ctx);
-
-}
+  canvas.width = 1280;
+  canvas.height = 720;
+  background.draw(ctx);
+};
 
 // OOP
 // vlastnosti objektu - atributy
 const enemy = {
-    hp: 100,
-    name: "Enemy1",
-    dmg: 12,
-}
-
+  hp: 100,
+  name: "Enemy1",
+  dmg: 12,
+};
 
 const update = () => {
-    battleBus.update();
-    fnKid.update();
-}
+    enemies.map((a)=> {
+        a.update();
+    })
+};
 const render = () => {
-    battleBus.draw(ctx);
-    fnKid.draw(ctx);
+    enemies.map((a)=>{
+       a.draw(ctx) 
+    })
+};
+const fps = () => {};
+
+const loadData = async () => {
+  const entitiesFile = await fetch("./res/data/entities.json");
+  const data = await entitiesFile.json();
+  Enemy.entitiesData = data;
+};
+
+const genEnemies = () => {
+    Enemy.entitiesData.map((a)=> {
+        //push - prida novou vec do pole
+        enemies.push(new Enemy(a.name,a.hp,a.dmg,a.imagePath,a.width,a.height,a.velocity,a.type))
+    })
 }
-const fps = () => {}
 
-window.onload = () => {
-    window.requestAnimationFrame(gameLoop);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+window.onload = async () => {
+  await loadData();
+  console.log(Enemy.entitiesData);
+  genEnemies();
+  console.log(enemies);
+  window.requestAnimationFrame(gameLoop);
+};
 
 /*
 const battleBus = new Image();
