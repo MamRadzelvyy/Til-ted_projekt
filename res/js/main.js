@@ -1,8 +1,32 @@
 import { Enemy } from "./ui/entities.js";
 import { Background } from "./ui/basic-ui.js";
+import { Twins } from "./ui/twins.js";
 
 
 const background = new Background();
+const twins = new Twins(500, 495, 50, 245, 610);
+
+document.addEventListener("click", (e) => {
+  console.log(e.clientX);
+  console.log(e.clientY);
+  const canvasPos = canvas.getBoundingClientRect();
+  console.log(canvasPos.left);
+  console.log(canvasPos.top);
+})
+
+
+function  getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect(), // abs. size of element
+    scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
+    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
+
+  return {
+    x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+    y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+  }
+}
+
+
 
 const enemies = [];
 
@@ -39,9 +63,11 @@ const enemy = {
 const update = () => {
     enemies.map((a)=> {
         a.update();
+        twins.detectCollision(a);
     })
 };
 const render = () => {
+  twins.draw(ctx);
     enemies.map((a)=>{
        a.draw(ctx) 
     })
