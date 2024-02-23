@@ -6,27 +6,20 @@ import { Twins } from "./ui/twins.js";
 const background = new Background();
 const twins = new Twins(500, 495, 50, 245, 610);
 
+
+let mouse = {
+x:0,
+y:0
+};
+
 document.addEventListener("click", (e) => {
-  console.log(e.clientX);
-  console.log(e.clientY);
-  const canvasPos = canvas.getBoundingClientRect();
-  console.log(canvasPos.left);
-  console.log(canvasPos.top);
-})
-
-
-function  getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect(), // abs. size of element
-    scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
-    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
-
-  return {
-    x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
-    y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
-  }
+  const rect = canvas.getBoundingClientRect()
+mouse.x = ((e.clientX - rect.left)/(rect.right - rect.left))*canvas.width;
+mouse.y= ((e.clientY - rect.top)/(rect.bottom - rect.top))*canvas.height;
+for (const enemy of enemies) {
+  if (enemy.detectCollision(mouse)) break;
 }
-
-
+});
 
 const enemies = [];
 
